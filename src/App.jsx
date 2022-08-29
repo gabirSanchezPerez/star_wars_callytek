@@ -15,8 +15,9 @@ import { PeopleProvider } from "./components/context/PeopleProvider";
 function App() {
   return (
     <PeopleProvider>
-      <Navigation />
       <Router>
+        <Navigation />
+      
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/favorite" element={<Favorite />} />

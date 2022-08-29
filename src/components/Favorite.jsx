@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import PeopleContext from './context/PeopleProvider';
 
-import usePeople from './context/usePeople';
+import Card from './ui/Card'
 
 const Favorite = () => {
-    const { favorites } = usePeople();
+    const { favorites } = useContext(PeopleContext);
 
     return (
         <div>
@@ -11,7 +12,7 @@ const Favorite = () => {
             <div className='flex flex-wrap'>
                 {favorites.length > 0 ?
                     favorites.map((favoite, i) => {
-                        return <Card key={i} p={favoite} />
+                        return <Card key={i} p={favoite} source="f" />
                     }) : null}
             </div>
         </div>

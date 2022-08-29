@@ -14,20 +14,18 @@ const PeopleProvider = ({ children }) => {
     
     const _setPeople = async (page) => {
         setWait(true);
-        let respPeople = peoples;
-        //console.log(respPeople)
+        let _peoples = peoples;
         const result = await getPeople(page);
-        respPeople = result.results.map(( p ) => {
-            return {
+        result.results?.map(( p ) => {
+            _peoples.push({
                 name: p.name,
                 mass: p.mass,
                 height: p.height,
                 birth_year: p.birth_year,
                 favorite: false
-            }
+            })
         });
-        //console.log(respPeople)
-        setPeople(respPeople);
+        setPeople(_peoples);
         if ( result.results.length < 10) {
             setPage(0)
         } else {
@@ -36,12 +34,29 @@ const PeopleProvider = ({ children }) => {
         setWait(false);
     };
 
+    const _delFavorite = ( p ) => {
+        p.favorite = false;
+        const f = favorites.filter(f => {
+            if ( f.name !== p.name ) {
+                return p
+            }
+        })
+        setFavorite(f)
+    }
+
     const _setFavorite = ( p ) => {
         p.favorite = true;
-        
+        _favorites = favorites;
         _favorites.push(p); 
         setFavorite(_favorites)
-        console.log(favorites)
+
+        const peo = peoples.map(peo => {
+            if ( peo.name === p.name ) {
+                peo.favotite = true
+            }
+            return peo
+        })
+        setPeople(peo)
     }
 
     return (
@@ -52,7 +67,8 @@ const PeopleProvider = ({ children }) => {
                 peoples,
                 page,
                 favorites,
-                _setFavorite
+                _setFavorite,
+                _delFavorite
             }}
         >
             {children}
