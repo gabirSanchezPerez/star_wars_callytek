@@ -4,15 +4,7 @@ import PeopleContext from './context/PeopleProvider';
 import Card from './ui/Card'
 
 const Home = () => {
-    const { _setPeople, peoples, page, wait, favorites } = useContext(PeopleContext);   
-
-    useEffect(() => {
-        if (peoples.length === 0) {
-            setTimeout(() => {
-                _setPeople(page)    
-            }, 500);
-        }
-    }, []);
+    const { _setPeople, peoples, page, wait } = useContext(PeopleContext);   
 
     return (
         <div className="">
