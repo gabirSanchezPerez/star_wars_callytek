@@ -5,3 +5,8 @@
 i.fas:hover {
  cursor: pointer;
 }
+nav a.active {
+    background-color: rgb(153, 246, 228, .5);
+    color: white;
+    padding: 1rem;
+}
