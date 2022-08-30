@@ -13,7 +13,7 @@ const Description = () => {
     }, []);
 
     return (
-        <div>
+        <div  className="container mx-auto">
             <h1 className="text-center py-4 text-xl font-bold text-cyan-800">Mas sobre {name}</h1>
             <table className='table-auto text-gray-700 text-base w-full text-left'>
                 <tbody>

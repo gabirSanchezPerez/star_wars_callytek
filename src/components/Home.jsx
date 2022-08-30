@@ -7,7 +7,7 @@ const Home = () => {
     const { _setPeople, peoples, page, wait } = useContext(PeopleContext);   
 
     return (
-        <div className="">
+        <div className="container mx-auto">
             <h1 className="text-center py-4 text-xl font-bold text-cyan-800">Personajes Star Wars</h1>
             <div className='flex flex-wrap text-left justify-around'>
                 {peoples.length > 0 ?
