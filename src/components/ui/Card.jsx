@@ -5,44 +5,26 @@ import { useNavigate } from "react-router-dom";
 const Card = ({ p, source }) => {
 
     let navigate = useNavigate();
-    const { moreInfo,  _setFavorite, _delFavorite } = useContext(PeopleContext);
-    const seeMore = async (p) => {
-        await moreInfo(p.url)
-        setTimeout(() => {
-            navigate("/description/" + p.name, { replace: true });
-        }, 300)
-        
+    const { setPerson, _setFavorite, _delFavorite } = useContext(PeopleContext);
+    const seeMore = (p) => {
+        setPerson(p)
+        navigate("/description/" + p.name, { replace: true });
     }
-    console.log(p)
+
     return (
         <div className=" sm:w-full md:w-1/2 lg:w-1/3 p-2">
             {source === "d" ? (
                 <>
-                <div className="rounded overflow-hidden shadow bg-gray-100">
-                    <div className="px-6 py-4">
-                        <div className="font-bold text-xl mb-2 text-center">{p.name}</div>
-                        <table className='table-auto text-gray-700 text-base w-full'>
-                            <tbody>
-                                <tr>
-                                    <th>Titulo</th>
-                                    <td>{p.films?.title}</td>
-                                </tr>
-                                <tr>
-                                    <th>Descripcion</th>
-                                    <td>{p.films?.opening_crawl}</td>
-                                </tr>
-                                <tr>
-                                    <th>Director</th>
-                                    <td>{p.films?.director}</td>
-                                </tr>
-                                <tr>
-                                    <th>Productor</th>
-                                    <td>{p.films?.producer}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div className="rounded overflow-hidden shadow bg-gray-100">
+                        <div className="px-6 py-4">
+                            <div className="font-bold text-xl mb-2">{p.name}</div>
+                            <h2 className='w-full px-4 text-xl font-bold text-center mb-4'>{p?.title}</h2>
+                            <p><span className='font-bold'>Director:</span> {p?.director}</p>
+                            <p><span className='font-bold'>Productor:</span> {p?.producer}</p>
+                            <p><span className='font-bold'>Descripcion:</span></p>
+                            <p className='text-justify'>{p?.opening_crawl}</p>
+                        </div>
                     </div>
-                </div>
                 </>
             ) : (
                 <div className="rounded overflow-hidden shadow bg-gray-100">
@@ -76,10 +58,11 @@ const Card = ({ p, source }) => {
                         </span>
                     </div>
                 </div>
-            )}
+            )
+            }
 
 
-        </div>
+        </div >
     );
 };
 

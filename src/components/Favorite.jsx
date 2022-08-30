@@ -8,7 +8,7 @@ const Favorite = () => {
 
     return (
         <div  className="container mx-auto">
-            <h1 className="text-center py-4 text-xl font-bold text-cyan-800">Mis Personajes Favoritos de Star Wars</h1>
+            <h1 className="text-center py-4 text-4xl font-bold text-cyan-800">Mis Personajes Favoritos de Star Wars</h1>
             <div className='flex flex-wrap'>
                 {favorites.length > 0 ?
                     favorites.map((favoite, i) => {

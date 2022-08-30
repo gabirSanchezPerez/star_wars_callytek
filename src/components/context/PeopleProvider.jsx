@@ -4,9 +4,8 @@ import React, { useState, useEffect, createContext } from 'react'
 import { getPeople, getMoreInfoPeople, getFilms } from '../../Endpoint';
 const PeopleContext = createContext()
 
-let movies = [];
 const PeopleProvider = ({ children }) => {
-    
+
     const [peoples, setPeople] = useState([]);
     const [person, setPerson] = useState({});
     const [page, setPage] = useState(1);
@@ -16,7 +15,7 @@ const PeopleProvider = ({ children }) => {
 
     const _setPeople = async (page) => {
         let _favorites;
-        if ( page == 1) {
+        if (page == 1) {
             _favorites = JSON.parse(localStorage.getItem("startWars_favorite")) ?? [];
         } else {
             _favorites = favorites;
@@ -24,7 +23,7 @@ const PeopleProvider = ({ children }) => {
         setWait(true);
         let _peoples = peoples;
         const result = await getPeople(page);
-        
+
         result.results?.map((p) => {
             _favorites.map(f => {
                 if (f.name === p.name) {
@@ -69,7 +68,7 @@ const PeopleProvider = ({ children }) => {
 
         const peo = peoples.map(peo => {
             if (peo.name === p.name) {
-                peo.favotite = true
+                peo.favorite = true
             }
             return peo
         })
@@ -77,30 +76,32 @@ const PeopleProvider = ({ children }) => {
         localStorage.setItem("startWars_favorite", JSON.stringify(_favorites))
     }
 
-    const moreInfo = async ( url ) => {
+    const moreInfo = async (url) => {
         const _uri = url.split("/")
         setWait(true);
         const result = await getMoreInfoPeople(_uri[5]);
-        //console.log(result);
-        result?.films.map( async (fi, i) => {
-            const _fi = fi.split("/");
-            result.films[i] = await _getFilms(_fi[5])
-        });
         setWait(false);
         setPerson(result)
+        _getFilms(result.films)
     }
 
-    const _getFilms = async( film ) => {
-        const result = await getFilms(film)
-        return {
-            title: result.title,
-            opening_crawl: result.opening_crawl,
-            director: result.director,
-            producer: result.producer
-        };
-        
+    const _getFilms = async (films) => {
+        const _films = await Promise.all(
+            films?.map(async (fi) => {
+                const _fi = fi.split("/");
+                const result = await getFilms(_fi[5])
+                return {
+                    title: result.title,
+                    opening_crawl: result.opening_crawl,
+                    director: result.director,
+                    producer: result.producer
+                };
+            })
+        )
+        setFilms(_films)
+
     }
-    
+
     useEffect(() => {
         const _fLS = JSON.parse(localStorage.getItem("startWars_favorite")) ?? [];
         setFavorite(_fLS)
@@ -125,6 +126,8 @@ const PeopleProvider = ({ children }) => {
                 setPerson,
                 moreInfo,
                 person,
+                films,
+                _getFilms
             }}
         >
             {children}
